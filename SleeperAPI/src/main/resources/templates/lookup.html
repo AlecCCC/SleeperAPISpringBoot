@@ -32,7 +32,7 @@
 
 <form th:action="@{/lookup}" method="post">
     <input type="text" name="username" placeholder="Enter Sleeper Username" required/>
-    <input type="number" name="year" placeholder="Enter Year (e.g. 2024)" required min="2000"/>
+    <input type="number" name="year" placeholder="Enter Year (e.g. 2024)"/>
     <button type="submit">Lookup</button>
 </form>
 
@@ -45,7 +45,9 @@
     <div th:if="${leagues != null}">
         <h3>User's Leagues:</h3>
         <div class="league-grid">
-            <div class="league-card" th:each="league : ${leagues}">
+            <a class="league-card" th:each="league : ${leagues}"
+              th:href ="@{/league/{id}(id=${league.league_id})}">
+
                 <img class="league-avatar"
                      th:if="${league.avatar != null}"
                      th:src="'https://sleepercdn.com/avatars/' + ${league.avatar}"
@@ -54,7 +56,7 @@
                     <p><strong th:text="${league.name}">League Name</strong></p>
                     <p>ID: <span th:text="${league.league_id}">12345</span></p>
                 </div>
-            </div>
+            </a>
         </div>
     </div>
 </div>

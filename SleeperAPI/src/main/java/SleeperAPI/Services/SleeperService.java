@@ -23,4 +23,9 @@ public class SleeperService {
         SleeperLeague[] leagues = restTemplate.getForObject(url, SleeperLeague[].class);
         return Arrays.asList(leagues);
     }
+
+    public SleeperLeague getLeagueById(String leagueId) {
+        String url = "https://api.sleeper.app/v1/league/" + leagueId;
+        return restTemplate.getForObject(url, SleeperLeague.class);
+    }
 }
