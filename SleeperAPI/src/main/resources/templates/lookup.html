@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Sleeper User Lookup</title>
+    <style>
+        .league-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .league-card {
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            padding: 1rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+        }
+        .league-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 1rem;
+            object-fit: cover;
+            background-color: #ddd;
+        }
+    </style>
+</head>
+<body>
+<h1>Lookup Sleeper Username</h1>
+
+<form th:action="@{/lookup}" method="post">
+    <input type="text" name="username" placeholder="Enter Sleeper Username" required/>
+    <input type="number" name="year" placeholder="Enter Year (e.g. 2024)" required min="2000"/>
+    <button type="submit">Lookup</button>
+</form>
+
+<div th:if="${user != null}">
+    <h2>User Info:</h2>
+    <p><strong>Username:</strong> <span th:text="${user.username}"></span></p>
+    <p><strong>User ID:</strong> <span th:text="${user.userId}"></span></p>
+    <p><strong>Display Name:</strong> <span th:text="${user.displayName}"></span></p>
+
+    <div th:if="${leagues != null}">
+        <h3>User's Leagues:</h3>
+        <div class="league-grid">
+            <div class="league-card" th:each="league : ${leagues}">
+                <img class="league-avatar"
+                     th:if="${league.avatar != null}"
+                     th:src="'https://sleepercdn.com/avatars/' + ${league.avatar}"
+                     alt="League Avatar"/>
+                <div>
+                    <p><strong th:text="${league.name}">League Name</strong></p>
+                    <p>ID: <span th:text="${league.league_id}">12345</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:if="${error != null}">
+    <p style="color:red;" th:text="${error}"></p>
+</div>
+</body>
+</html>
